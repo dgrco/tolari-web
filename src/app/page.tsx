@@ -1,103 +1,204 @@
-import Image from "next/image";
+"use client";
+
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+interface DownloadData {
+  osName: string;
+  downloadURL: string;
+  relativeRedirectPath: string; // e.g. /download/windows
+}
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const router = useRouter();
+  const [downloadData, setDownloadData] = useState<DownloadData | null>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const getOS = () => {
+    const userAgent = window.navigator.userAgent;
+    let os = "Unknown";
+
+    if (userAgent.indexOf("Win") !== -1) os = "Windows";
+    else if (userAgent.indexOf("Mac") !== -1) os = "macOS";
+    else if (userAgent.indexOf("Linux") !== -1 && userAgent.indexOf("Android") === -1) os = "Linux";
+
+    return os;
+  }
+
+  useEffect(() => {
+    const os = getOS();
+    switch (os) {
+      case "Windows": {
+        setDownloadData({
+          osName: os,
+          downloadURL: "https://github.com/dgrco/TolariApp/releases/latest/download/Tolari-amd64-installer.exe",
+          relativeRedirectPath: '/download/windows',
+        });
+        break;
+      }
+      case "Linux": {
+        setDownloadData({
+          osName: os,
+          downloadURL: "https://github.com/dgrco/TolariApp/releases/latest/download/Tolari.tar.gz",
+          relativeRedirectPath: '/download/linux',
+        });
+        break;
+      }
+      case "macOS": {
+        // TODO: change to actual data when ready
+        setDownloadData(null);
+        break;
+      }
+      default:
+        setDownloadData(null);
+    }
+  }, [])
+
+  const handleDownloadAndRedirect = (event: React.MouseEvent, releaseURL: string, redirectURL: string) => {
+    event.preventDefault();
+
+    setIsDownloading(true);
+
+    const a = document.createElement('a');
+    a.href = releaseURL;
+    a.download = 'Tolari'
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    setTimeout(() => {
+      router.push(redirectURL);
+      setIsDownloading(false);
+    }, 800)
+  }
+
+  return (
+    <>
+      <title>Tolari - Study Smarter</title>
+      <div className="relative min-h-screen">
+        <div className="flex flex-col items-center px-6 mt-20 text-center">
+          {/* Hero */}
+          <h1 className="text-5xl font-bold mb-6">
+            Study Smarter. Stay Focused. Get More Done.
+          </h1>
+          <p className="text-lg text-gray-400 max-w-2xl mb-10">
+            Tolari is your all-in-one study companion — combining flashcards,
+            spaced-repetition review, task management, and a pomodoro timer.
+            Everything you need to learn effectively, all in
+            one place.
+          </p>
+          <div className="flex flex-col gap-4 items-center">
+            <button
+              disabled={downloadData === null || isDownloading}
+              className={`text-white px-8 py-3 rounded-2xl text-lg font-medium transition cursor-pointer ${downloadData === null ?
+                'bg-[var(--background-secondary)] opacity-85' :
+                'bg-[var(--primary)] hover:bg-[var(--primary-hovered)]'
+                }`}
+              onClick={(e) => {
+                if (downloadData) {
+                  handleDownloadAndRedirect(e, downloadData.downloadURL, downloadData.relativeRedirectPath)
+                }
+              }}
+            >
+              Download {downloadData ? `for ${downloadData.osName}` : " Available on a Computer"}
+            </button>
+            <Link href="/download" className="text-gray-500 opacity-85 text-sm underline">
+              See all download options
+            </Link>
+          </div>
+
+          {/* Features */}
+          <div className="grid md:grid-cols-2 gap-16 mt-16 max-w-5xl w-full">
+            {/* Dashboard */}
+            <div className="flex flex-col items-center">
+              <div className="rounded-xl bg-gradient-to-b from-purple-500 to-cyan-500 p-2">
+                <Image
+                  src="/flashcard-home.png"
+                  alt="Flashcards with SM2 review"
+                  width={1484}
+                  height={1049}
+                  className="rounded-lg"
+                />
+              </div>
+              <h2 className="text-2xl font-semibold mt-4">Your Study Hub</h2>
+              <p className="text-gray-400 mt-2 max-w-md">
+                Start with flashcards and easily jump to the planning board or the pomodoro timer.
+                The dashboard gives you access to every tool you need, distraction-free.
+              </p>
+            </div>
+
+            {/* Flashcards */}
+            <div className="flex flex-col items-center">
+              <div className="rounded-xl bg-gradient-to-b from-cyan-500 to-purple-500 p-2">
+                <Image
+                  src="/flashcard-review.png"
+                  alt="Flashcards with SM2 review"
+                  width={1484}
+                  height={1049}
+                  className="rounded-lg"
+                />
+              </div>
+              <h2 className="text-2xl font-semibold mt-4">Flashcards That Stick</h2>
+              <p className="text-gray-400 mt-2 max-w-md">
+                Memorize faster with spaced repetition powered by the SM2 algorithm.
+                Whether it’s vocab, formulas, or key concepts, Tolari helps you
+                remember what matters most.
+              </p>
+            </div>
+
+            {/* Kanban */}
+            <div className="flex flex-col items-center">
+              <div className="rounded-xl bg-gradient-to-b from-cyan-500 to-purple-500 p-2">
+                <Image
+                  src="/kanban.png"
+                  alt="Flashcards with SM2 review"
+                  width={1484}
+                  height={1049}
+                  className="rounded-lg"
+                />
+              </div>
+              <h2 className="text-2xl font-semibold mt-4">Stay on Top of Tasks</h2>
+              <p className="text-gray-400 mt-2 max-w-md">
+                Plan assignments and break down big projects with a
+                simple drag-and-drop planning board. Stay organized without the chaos.
+              </p>
+            </div>
+
+            {/* Pomodoro Timer */}
+            <div className="flex flex-col items-center">
+              <div className="rounded-xl bg-gradient-to-b from-purple-500 to-cyan-500 p-2">
+                <Image
+                  src="/timer.png"
+                  alt="Flashcards with SM2 review"
+                  width={1484}
+                  height={1049}
+                  className="rounded-lg"
+                />
+              </div>
+              <h2 className="text-2xl font-semibold mt-4">Focus Without Burnout</h2>
+              <p className="text-gray-400 mt-2 max-w-md">
+                Beat procrastination and avoid burnout with built-in pomodoro
+                sessions. Study in focused bursts, recharge with breaks, and keep
+                your energy steady.
+              </p>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="mt-24 mb-8">
+            <Link href="/download">
+              <button className="bg-[var(--primary)] text-white px-10 py-3 rounded-2xl text-xl font-semibold hover:bg-[var(--primary-hovered)] transition cursor-pointer">
+                Get Tolari Free
+              </button>
+            </Link>
+            <p className="text-gray-500 mt-4">
+              Available for Windows and Linux (and soon for macOS)
+            </p>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+    </>
   );
 }

@@ -19,6 +19,10 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
     ],
+    rules: {
+      // 1. Disable the unescaped entities error (the 'quote thing')
+      "react/no-unescaped-entities": "off",
+    },
   },
 ];
 
