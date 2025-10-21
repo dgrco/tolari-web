@@ -35,10 +35,10 @@ export default function Download() {
           Choose your platform and start boosting your productivity today.
         </p>
 
-        <div className="flex flex-col md:flex-row gap-6">
+        <div className="flex flex-col md:flex-row gap-6 text-lg">
           <button
             disabled={isDownloading}
-            className="bg-[var(--primary)] text-white px-8 py-4 rounded-xl font-medium hover:bg-[var(--primary-hovered)] transition cursor-pointer"
+            className="bg-[var(--primary)] text-white px-8 py-4 rounded-xl font-medium hover:bg-[var(--primaryHovered)] transition cursor-pointer"
             onClick={(e) => handleDownloadAndRedirect(e, "https://github.com/dgrco/TolariApp/releases/latest/download/Tolari-amd64-installer.exe", '/download/windows')}
           >
             Windows
@@ -46,17 +46,17 @@ export default function Download() {
 
           <button
             disabled={isDownloading}
-            className="bg-[var(--primary)] text-white px-8 py-4 rounded-xl font-medium hover:bg-[var(--primary-hovered)] transition cursor-pointer"
+            className="bg-[var(--primary)] text-white px-8 py-4 rounded-xl font-medium hover:bg-[var(--primaryHovered)] transition cursor-pointer"
             onClick={(e) => handleDownloadAndRedirect(e, "https://github.com/dgrco/TolariApp/releases/latest/download/Tolari.tar.gz", '/download/linux')}
           >
             Linux
           </button>
           <button
             disabled
-            className="bg-[var(--background-secondary)] text-white px-8 py-4 rounded-xl font-medium transition disabled:opacity-70"
+            className="bg-[var(--backgroundSecondary)] text-white px-8 py-4 rounded-xl font-medium transition disabled:opacity-70"
             title="Coming Soon!"
           >
-            macOS
+            macOS (coming soon)
           </button>
         </div>
 

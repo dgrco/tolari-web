@@ -10,7 +10,7 @@ export default function WindowsDownloadInfo() {
           <p className="text-lg text-gray-400 max-w-2xl mb-10">
             Tolari is currently in <strong>Beta</strong> and we can't wait to hear your valuable feedback! Feature Requests and bug encounters can be submitted on <a className="text-[var(--secondary)]" href="https://github.com/dgrco/TolariApp/issues">GitHub issues</a>.
           </p>
-          <div className="text-md max-w-2xl mt-12 border-4 border-[var(--primary)] rounded-lg py-6 px-8">
+          <div className="text-md max-w-2xl mt-12 border-4 border-[var(--primary)] rounded-lg py-6 px-8 mb-4">
             <h2 className="text-2xl font-bold mb-6">
               Important Information For Windows Users
             </h2>

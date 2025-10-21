@@ -2,12 +2,12 @@
 
 :root {
   --background: #121212;
-  --background-secondary: #1E1E1E;
+  --backgroundSecondary: #1E1E1E;
   --foreground: #F3F4F6;
   --primary: #7C3AED;
-  --primary-hovered: #6f33d6;
+  --primaryHovered: #6f33d6;
   --secondary: #3B82F6;
-  --secondary-hovered: #3678e3;
+  --secondaryHovered: #3678e3;
 }
 
 body {

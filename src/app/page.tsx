@@ -74,9 +74,25 @@ export default function Home() {
     }, 800)
   }
 
+  // This is needed for Search Title on engines:
+  function generateWebSiteSchema() {
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Tolari",
+      "url": "https://tolari.app/"
+    }
+
+    return JSON.stringify(jsonLd);
+  }
+  const schemaData = generateWebSiteSchema();
+
   return (
     <>
       <title>Tolari - Study Smarter</title>
+      <script type="application/ld+json">
+        {schemaData}
+      </script>
       <div className="relative min-h-screen">
         <div className="flex flex-col items-center px-6 mt-20 text-center">
           {/* Hero */}
@@ -93,8 +109,8 @@ export default function Home() {
             <button
               disabled={downloadData === null || isDownloading}
               className={`text-white px-8 py-3 rounded-2xl text-lg font-medium transition cursor-pointer ${downloadData === null ?
-                'bg-[var(--background-secondary)] opacity-85' :
-                'bg-[var(--primary)] hover:bg-[var(--primary-hovered)]'
+                'bg-[var(--backgroundSecondary)] opacity-85' :
+                'bg-[var(--primary)] hover:bg-[var(--primaryHovered)]'
                 }`}
               onClick={(e) => {
                 if (downloadData) {
@@ -189,7 +205,7 @@ export default function Home() {
           {/* CTA */}
           <div className="mt-24 mb-8">
             <Link href="/download">
-              <button className="bg-[var(--primary)] text-white px-10 py-3 rounded-2xl text-xl font-semibold hover:bg-[var(--primary-hovered)] transition cursor-pointer">
+              <button className="bg-[var(--primary)] text-white px-10 py-3 rounded-2xl text-xl font-semibold hover:bg-[var(--primaryHovered)] transition cursor-pointer">
                 Get Tolari Free
               </button>
             </Link>

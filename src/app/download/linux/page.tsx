@@ -2,7 +2,7 @@ export default function LinuxDownloadInfo() {
   return (
     <>
       <title>Thank You | Tolari</title>
-      <div className="relative min-h-screen">
+      <div className="relative h-screen">
         <div className="flex flex-col items-center px-6 mt-20 text-center">
           <h1 className="text-5xl font-bold mb-6">
             Thanks for Downloading Tolari!
@@ -10,7 +10,7 @@ export default function LinuxDownloadInfo() {
           <p className="text-lg text-gray-400 max-w-2xl mb-10">
             Tolari is currently in <strong>Beta</strong> and we can't wait to hear your valuable feedback! Feature Requests and bug encounters can be submitted on <a className="text-[var(--secondary)]" href="https://github.com/dgrco/TolariApp/issues">GitHub issues</a>.
           </p>
-          <div className="text-md max-w-2xl mt-12 mb-4 border-4 border-[var(--primary)] rounded-lg py-6 px-8">
+          <div className="text-md w-[95%] max-w-2xl mt-12 mb-4 border-4 border-[var(--primary)] rounded-lg py-6 px-8">
             <h2 className="text-2xl font-bold mb-6">
               Installation Instructions for Linux Users
             </h2>
@@ -55,12 +55,12 @@ export default function LinuxDownloadInfo() {
               <span className="text-left text-lg">
                 <ol type="1" className="list-decimal">
                   <li className="p-2">Extract the compressed archive with
-                    <pre className="bg-[var(--background-secondary)] p-4 rounded text-sm overflow-x-auto my-1">
+                    <pre className="bg-[var(--backgroundSecondary)] p-4 rounded text-sm overflow-x-auto my-1">
                       tar -xzf Tolari.tar.gz
                     </pre>
                   </li>
                   <li className="p-2">Go into the new Tolari directory
-                    <pre className="bg-[var(--background-secondary)] p-4 rounded text-sm overflow-x-auto my-1">
+                    <pre className="bg-[var(--backgroundSecondary)] p-4 rounded text-sm overflow-x-auto my-1">
                       cd Tolari
                     </pre>
                   </li>
@@ -69,7 +69,7 @@ export default function LinuxDownloadInfo() {
                     <ol type="1" className="list-decimal">
                       <li className="my-2">
                         <strong>Install Tolari (Recommended)</strong>
-                        <pre className="bg-[var(--background-secondary)] p-4 rounded text-sm overflow-x-auto my-1">
+                        <pre className="bg-[var(--backgroundSecondary)] p-4 rounded text-sm overflow-x-auto my-1">
                           chmod +x install.sh<br />
                           ./install.sh
                         </pre>
@@ -77,7 +77,7 @@ export default function LinuxDownloadInfo() {
                       </li>
                       <li className="mt-2">
                         <strong>Run the AppImage directly</strong>
-                        <pre className="bg-[var(--background-secondary)] p-4 rounded text-sm overflow-x-auto mt-1">
+                        <pre className="bg-[var(--backgroundSecondary)] p-4 rounded text-sm overflow-x-auto mt-1">
                           ./Tolari-x86_64.AppImage
                         </pre>
                       </li>
