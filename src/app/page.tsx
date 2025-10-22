@@ -90,14 +90,11 @@ export default function Home() {
 
   return (
     <>
-      <head>
-        <title>Tolari - Study Smarter</title>
-        <script type="application/ld+json">
-          {schemaData}
-        </script>
+      <title>Tolari - Study Smarter</title>
+      <script type="application/ld+json">
+        {schemaData}
+      </script>
 
-        <link rel="icon" href="/tolari-logo.svg" type="image/svg+xml" />
-      </head>
       <div className="relative min-h-screen">
         <div className="flex flex-col items-center px-6 mt-20 text-center">
           {/* Hero */}
