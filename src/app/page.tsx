@@ -80,7 +80,8 @@ export default function Home() {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Tolari",
-      "url": "https://tolari.app/"
+      "url": "https://tolari.app/",
+      "logo": "https://tolari.app/tolari-logo.svg"
     }
 
     return JSON.stringify(jsonLd);
@@ -89,10 +90,14 @@ export default function Home() {
 
   return (
     <>
-      <title>Tolari - Study Smarter</title>
-      <script type="application/ld+json">
-        {schemaData}
-      </script>
+      <head>
+        <title>Tolari - Study Smarter</title>
+        <script type="application/ld+json">
+          {schemaData}
+        </script>
+
+        <link rel="icon" href="/tolari-logo.svg" type="image/svg+xml" />
+      </head>
       <div className="relative min-h-screen">
         <div className="flex flex-col items-center px-6 mt-20 text-center">
           {/* Hero */}
