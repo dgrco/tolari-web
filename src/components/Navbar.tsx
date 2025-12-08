@@ -5,7 +5,11 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import HamburgerMenu from "./HamburgerMenu";
 
-export default function Navbar({ onHeightChange }: { onHeightChange: (h: number) => void }) {
+export default function Navbar({
+  onHeightChange,
+}: {
+  onHeightChange: (h: number) => void;
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [screenWidth, setScreenWidth] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
@@ -14,11 +18,11 @@ export default function Navbar({ onHeightChange }: { onHeightChange: (h: number)
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-    }
+    };
 
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
-    }
+    };
 
     handleResize(); // initially set the width
     setIsMounted(true);
@@ -29,14 +33,14 @@ export default function Navbar({ onHeightChange }: { onHeightChange: (h: number)
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
-    }
+    };
   }, []);
 
   const height = scrolled ? 4 : 6; // compact vs normal height (in rem!)
 
   useEffect(() => {
     if (onHeightChange) onHeightChange(height);
-  }, [height, onHeightChange])
+  }, [height, onHeightChange]);
 
   // notify parent
   useEffect(() => {
@@ -50,12 +54,13 @@ export default function Navbar({ onHeightChange }: { onHeightChange: (h: number)
       className={`fixed bg-[#121212] border-b top-0 w-full z-50 transition-all ease-in-out duration-[350ms] ${scrolled ? "border-[#2A2A2A]" : "border-transparent"}`}
       style={{ height: `${height}rem` }}
     >
-      <div 
+      <div
         className={`
           w-full md:max-w-6xl mx-auto flex justify-between px-4 h-full
           transition-opacity duration-700 ease-in-out
-          ${isMounted ? 'opacity-100' : 'opacity-0'}
-        `}>
+          ${isMounted ? "opacity-100" : "opacity-0"}
+        `}
+      >
         <div className="flex flex-1 items-center">
           <Link
             href="/"
@@ -76,10 +81,11 @@ export default function Navbar({ onHeightChange }: { onHeightChange: (h: number)
             <div className="flex ml-12 space-x-6 text-md font-medium">
               <Link
                 href="/download"
-                className={`hover:text-[var(--foreground)] hover:bg-[var(--backgroundSecondary)] px-4 py-2 rounded-md transition-colors ${pathname === '/download' ?
-                  'bg-[var(--backgroundSecondary)] text-[var(--foreground)]' :
-                  'text-[#a0a0a0]'
-                  }`}
+                className={`hover:text-[var(--foreground)] hover:bg-[var(--backgroundSecondary)] px-4 py-2 rounded-md transition-colors ${
+                  pathname === "/download"
+                    ? "bg-[var(--backgroundSecondary)] text-[var(--foreground)]"
+                    : "text-[#a0a0a0]"
+                }`}
               >
                 Download
               </Link>
@@ -98,15 +104,20 @@ export default function Navbar({ onHeightChange }: { onHeightChange: (h: number)
           </div>
         )}
 
-        {isMobile && 
+        {isMobile && (
           <div className="flex items-center">
-            <HamburgerMenu links={[
-              {title: 'Download', url: '/download'},
-              {title: 'GitHub', url: 'https://github.com/dgrco/TolariApp.git'},
-            ]} />
+            <HamburgerMenu
+              links={[
+                { title: "Download", url: "/download" },
+                {
+                  title: "GitHub",
+                  url: "https://github.com/dgrco/TolariApp.git",
+                },
+              ]}
+            />
           </div>
-        }
+        )}
       </div>
     </nav>
-  )
+  );
 }
